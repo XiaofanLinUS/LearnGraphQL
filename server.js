@@ -16,7 +16,8 @@ const books = [
     { id: 5, name: 'The Two Towers', authorId: 2 },
     { id: 6, name: 'The Return of the King', authorId: 2 },
     { id: 7, name: 'The Way of Shadows', authorId: 3 },
-    { id: 8, name: 'Beyond the Shadows', authorId: 3 }
+    { id: 8, name: 'Beyond the Shadows', authorId: 3 },
+    { id: 9, name: 'Beyond the Shadows', authorId: 4 }
 ]
 
 const BookType = new GraphQLObjectType({
@@ -25,7 +26,11 @@ const BookType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLNonNull(GraphQLInt) },
         name: { type: GraphQLNonNull(GraphQLString) },
-        authorId: { type: GraphQLNonNull(GraphQLInt) }
+        authorId: { type: GraphQLNonNull(GraphQLInt) },
+        author: {
+            type: AuthorType,
+            resolve: (book) => authors.find(author => author.id === book.authorId)
+        }
     }),
 })
 
