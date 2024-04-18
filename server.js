@@ -5,7 +5,8 @@ const { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList
 const authors = [
     { id: 1, name: 'J. K. Rowling' },
     { id: 2, name: 'J. R. R. Tolkien' },
-    { id: 3, name: 'Brent Weeks' }
+    { id: 3, name: 'Brent Weeks' },
+    { id: 4, name: 'Sam Lin' }
 ]
 
 const books = [
@@ -17,7 +18,7 @@ const books = [
     { id: 6, name: 'The Return of the King', authorId: 2 },
     { id: 7, name: 'The Way of Shadows', authorId: 3 },
     { id: 8, name: 'Beyond the Shadows', authorId: 3 },
-    { id: 9, name: 'Beyond the Shadows', authorId: 4 }
+    { id: 9, name: 'Book Name', authorId: 5 }
 ]
 
 const BookType = new GraphQLObjectType({
@@ -39,9 +40,14 @@ const AuthorType = new GraphQLObjectType({
     description: "An author query",
     fields: () => ({
         id: { type: GraphQLNonNull(GraphQLInt) },
-        name: { type: GraphQLNonNull(GraphQLString) }
+        name: { type: GraphQLNonNull(GraphQLString) },
+        books: {
+            type: new GraphQLList(BookType),
+            resolve: (author) => books.filter(book => book.authorId === author.id)
+        }
     })
 })
+
 const RootQueryType = new GraphQLObjectType({
     name: "Query",
     description: "A root query",
