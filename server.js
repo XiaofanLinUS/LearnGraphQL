@@ -1,7 +1,7 @@
 const express = require('express')
 const expressGraphQL = require('express-graphql').graphqlHTTP
 const app = express()
-const { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList } = require('graphql')
+const { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList, GraphQLNonNull } = require('graphql')
 const authors = [
     { id: 1, name: 'J. K. Rowling' },
     { id: 2, name: 'J. R. R. Tolkien' },
@@ -23,7 +23,9 @@ const BookType = new GraphQLObjectType({
     name: "Book",
     description: "A book query",
     fields: () => ({
-        id: { type: GraphQLInt }
+        id: { type: GraphQLNonNull(GraphQLInt) },
+        name: { type: GraphQLNonNull(GraphQLString) },
+        authorId: { type: GraphQLNonNull(GraphQLInt) }
     }),
 })
 
